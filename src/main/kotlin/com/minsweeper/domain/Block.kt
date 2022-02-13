@@ -1,13 +1,18 @@
 package com.minsweeper.domain
 
-import com.minsweeper.domain.BlockStatus.*
+import com.minsweeper.domain.BlockType.*
 
 class Block(
-    var status: BlockStatus
+    var type: BlockType
 ) {
-    companion object {
-        fun createUnknown(): Block = Block(UNKNOWN)
 
+    fun change(type: BlockType) {
+        if (!this.type.canChangeTo(type)) return
+
+        this.type = type
+    }
+
+    companion object {
         fun createBlank(): Block = Block(BLANK)
 
         fun createMine(): Block = Block(MINE)
