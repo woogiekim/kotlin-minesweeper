@@ -1,5 +1,9 @@
-package com.minsweeper.domain
+package com.minsweeper.board
 
+import com.minsweeper.block.BlankBlock
+import com.minsweeper.block.Block
+import com.minsweeper.block.MineBlock
+import com.minsweeper.block.Coordinate
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 
@@ -7,10 +11,12 @@ class Board(
     private var blocks: MutableList<MutableList<Block>>
 ) {
 
-    fun getBlock(x: Int, y: Int): Block = this.blocks[x][y]
+    fun getBlock(coordinate: Coordinate): Block = with(coordinate) { blocks[x][y] }
 
-    fun plantMine(x: Int, y: Int) {
-        this.blocks[x][y] = Block.createMine()
+    fun plantMine(coordinate: Coordinate) {
+        coordinate.apply {
+            blocks[x][y] = MineBlock(this)
+        }
     }
 
     fun getXCoordinate(): Int = this.blocks.size
@@ -24,7 +30,7 @@ class Board(
             val blocks = mutableListOf<MutableList<Block>>()
 
             repeat(x) {
-                blocks.add(IntStream.range(0, y).mapToObj { Block.createBlank() }.collect(Collectors.toList()))
+                blocks.add(IntStream.range(0, y).mapToObj { BlankBlock(Coordinate(x, y)) }.collect(Collectors.toList()))
             }
 
             return Board(blocks)
