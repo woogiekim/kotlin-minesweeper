@@ -8,4 +8,8 @@ data class Coordinate(
         require(x >= 0) { "x좌표 음수불가" }
         require(y >= 0) { "y좌표 음수불가" }
     }
+
+    companion object {
+        val DEFAULT = Coordinate(3, 3)
+    }
 }
