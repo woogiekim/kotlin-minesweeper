@@ -1,6 +1,6 @@
 package com.minsweeper.block
 
-import com.minsweeper.board.Board
+import com.minsweeper.board
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -8,18 +8,16 @@ class BoardTest {
 
     @Test
     fun `x by y 형태로 보드를 생성할 수 있다`() {
-        val x = 3
-        val y = 5
+        val coordinate = Coordinate(3, 5)
 
-        val board = Board.create(x, y)
+        val board = board(coordinate)
 
-        assertThat(board.getXCoordinate()).isEqualTo(x)
-        assertThat(board.getYCoordinate()).isEqualTo(y)
+        assertThat(board.coordinate).isEqualTo(coordinate)
     }
 
     @Test
     fun `정해진 개수만큼 지뢰를 심는다`() {
-        val board = Board.create()
+        val board = board()
 
         board.plantMine(Coordinate(0, 2))
         board.plantMine(Coordinate(1, 1))
@@ -32,7 +30,7 @@ class BoardTest {
 
     @Test
     fun `보드에 있는 블록중에 하나를 좌표로 가져올 수 있다`() {
-        val board = Board.create()
+        val board = board()
 
         board.plantMine(Coordinate(0, 2))
 
