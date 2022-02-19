@@ -1,9 +1,8 @@
 package com.minsweeper.block
 
 class MineBlock(
-    val coordinate: Coordinate
-) : SimpleBlock(coordinate) {
-    override fun display(): String = "*"
-
+    val coordinate: Coordinate,
+    display: String = "*"
+) : SimpleBlock(coordinate, display) {
     override fun open() = throw IllegalStateException("지뢰를 밟음")
 }

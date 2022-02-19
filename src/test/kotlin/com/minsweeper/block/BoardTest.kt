@@ -1,8 +1,5 @@
-package com.minsweeper.domain
+package com.minsweeper.block
 
-import com.minsweeper.block.BlankBlock
-import com.minsweeper.block.Coordinate
-import com.minsweeper.block.MineBlock
 import com.minsweeper.board.Board
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

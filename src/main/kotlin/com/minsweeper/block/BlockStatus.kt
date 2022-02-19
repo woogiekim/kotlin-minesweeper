@@ -2,5 +2,7 @@ package com.minsweeper.block
 
 enum class BlockStatus {
     CLOSE,
-    OPEN
+    OPEN,
+    FLAG,
+    QUESTION_MARK
 }
