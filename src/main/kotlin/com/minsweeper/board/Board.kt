@@ -1,26 +1,19 @@
 package com.minsweeper.board
 
-import com.minsweeper.block.Block
+import com.minsweeper.block.Blocks
 import com.minsweeper.block.Coordinate
-import com.minsweeper.block.MineBlock
-import com.minsweeper.component.BlockGenerator
 
 class Board(
-    val coordinate: Coordinate,
-    private var blocks: MutableList<MutableList<Block>>
+    private val blocks: Blocks
 ) {
 
-    fun getBlock(coordinate: Coordinate): Block = with(coordinate) { blocks[x][y] }
+    fun getBlock(coordinate: Coordinate) = blocks.getOne(coordinate)
 
-    fun plantMine(coordinate: Coordinate) {
-        coordinate.apply {
-            blocks[x][y] = MineBlock(this)
-        }
-    }
+    fun getBlockCoordinate(): Coordinate = blocks.coordinate
+
+    fun layMine(coordinate: Coordinate) = blocks.mine(coordinate)
 
     companion object {
-        fun create(coordinate: Coordinate, blockGenerator: BlockGenerator): Board {
-            return Board(coordinate, blockGenerator.generate(coordinate))
-        }
+        fun create(blocks: Blocks): Board = Board(blocks)
     }
 }
