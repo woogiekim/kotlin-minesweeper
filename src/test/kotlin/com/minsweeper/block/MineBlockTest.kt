@@ -11,7 +11,7 @@ class MineBlockTest {
 
     @Test
     fun `지뢰블록을 생성할 수 있다`() {
-        val coordinate = Coordinate(1, 1)
+        val coordinate = Coordinate(1 to 1)
         val mine = mineBlock(coordinate)
 
         assertThat(mine.display()).isEqualTo("◻️")

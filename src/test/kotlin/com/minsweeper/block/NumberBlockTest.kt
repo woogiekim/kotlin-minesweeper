@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class NumberBlockTest {
     @Test
     fun `숫자블록을 생성할 수 있다`() {
-        val coordinate = Coordinate(2, 1)
+        val coordinate = Coordinate(2 to 1)
         val number = numberBlock(3, coordinate)
 
         assertThat(number.display()).isEqualTo("◻️")

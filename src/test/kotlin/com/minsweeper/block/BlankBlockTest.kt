@@ -10,7 +10,7 @@ class BlankBlockTest {
 
     @Test
     fun `빈 블록을 생성할 수 있다`() {
-        val coordinate = Coordinate(0, 1)
+        val coordinate = Coordinate(0 to 1)
         val blank = blankBlock(coordinate)
 
         assertThat(blank.display()).isEqualTo("◻️")
