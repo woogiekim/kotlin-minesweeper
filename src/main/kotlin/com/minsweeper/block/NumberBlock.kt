@@ -1,7 +1,7 @@
 package com.minsweeper.block
 
 class NumberBlock(
-    number: Int,
+    val number: Int,
     val coordinate: Coordinate,
 ) : SimpleBlock(coordinate, "$number") {
     override fun open() {

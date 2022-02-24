@@ -4,6 +4,7 @@ import com.minsweeper.block.BlockStatus.CLOSE
 import com.minsweeper.block.BlockStatus.OPEN
 import com.minsweeper.numberBlock
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
 
 class NumberBlockTest {
@@ -27,5 +28,23 @@ class NumberBlockTest {
 
         assertThat(number.status).isEqualTo(OPEN)
         assertThat(number.display()).isEqualTo("3")
+    }
+
+    @Test
+    fun `숫자블록의 숫자는 최소 1로 만들 수 있다`() {
+        val atLeastOne = numberBlock(1)
+
+        assertThat(atLeastOne.number).isEqualTo(1)
+
+        assertThatIllegalArgumentException().isThrownBy { numberBlock(0) }
+    }
+
+    @Test
+    fun `숫자블록의 숫자는 최대 8로 만들 수 있다`() {
+        val atMostEight = numberBlock(8)
+
+        assertThat(atMostEight.number).isEqualTo(8)
+
+        assertThatIllegalArgumentException().isThrownBy { numberBlock(9) }
     }
 }
