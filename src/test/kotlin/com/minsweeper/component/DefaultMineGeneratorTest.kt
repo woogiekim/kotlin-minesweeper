@@ -1,44 +1,35 @@
 package com.minsweeper.component
 
-import com.minsweeper.block.*
+import com.minsweeper.block.Blocks
+import com.minsweeper.block.Coordinate
+import com.minsweeper.block.MineBlock
 import com.minsweeper.blocks
-import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DefaultMineGeneratorTest {
     private val mineGenerator = DefaultMineGenerator()
 
-    private lateinit var blocks: Blocks
-
-    @BeforeEach
-    internal fun setUp() {
-        blocks = blocks()
-    }
-
     @Test
-    fun `지뢰를 심을 수 있다`() {
+    fun `지뢰를 심을 수 있다 (개수를 정하지 않으면, 기본적으로 총 블록수의 3 분의 1 만큼 지뢰를 심는다)`() {
+        val blocks: Blocks = blocks(Coordinate(6 to 6))
+
         val minedBlocks: Blocks = mineGenerator.generate(blocks)
 
-        `지뢰 설치 검증`(minedBlocks, 1)
+        `지뢰 설치 검증`(minedBlocks, (blocks.totalCount() / 3))
     }
 
     @Test
     fun `정한 개수 만큼 지뢰를 심을 수 있다`() {
+        val blocks: Blocks = blocks()
         val mineCount = 3
+
         val minedBlocks: Blocks = mineGenerator.generate(blocks, mineCount)
 
         `지뢰 설치 검증`(minedBlocks, mineCount)
     }
 
-    @Test
-    fun `총 블록보다 많이 지뢰를 심을 수 없다`() {
-        val mineCount = blocks.totalCount() + 1
-
-        assertThatIllegalStateException().isThrownBy { mineGenerator.generate(blocks, mineCount) }
-    }
-
     private fun `지뢰 설치 검증`(minedBlocks: Blocks, count: Int) {
-        assertThat(minedBlocks.toList().count { list -> list.any { it is MineBlock } }).isEqualTo(count)
+        assertThat(minedBlocks.toList().sumOf { it.count { block -> block is MineBlock } }).isEqualTo(count)
     }
 }
