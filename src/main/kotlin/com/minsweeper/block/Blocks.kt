@@ -9,6 +9,8 @@ class Blocks private constructor(
 
     fun getOne(coordinate: Coordinate): Block = with(coordinate) { blocks[x][y] }
 
+    fun totalCount(): Int = coordinate.x * coordinate.y
+
     fun mine(coordinate: Coordinate) {
         coordinate.apply {
             check(blocks[x][y] !is MineBlock) { "지뢰를 중복 설치할 수 없음" }
