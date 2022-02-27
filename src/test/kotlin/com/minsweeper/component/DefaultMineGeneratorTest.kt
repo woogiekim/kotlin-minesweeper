@@ -16,7 +16,7 @@ class DefaultMineGeneratorTest {
 
         val minedBlocks: Blocks = mineGenerator.generate(blocks)
 
-        `지뢰 설치 검증`(minedBlocks, (blocks.totalCount() / 3))
+        `지뢰 설치 검증`(minedBlocks, (blocks.getTotalCount() / 3))
     }
 
     @Test
