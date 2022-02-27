@@ -9,4 +9,9 @@ class NumberBlock(
 
         this.status = BlockStatus.OPEN
     }
+
+    companion object {
+        const val MINIMUM = 0
+        const val MAXIMUM = 8
+    }
 }
