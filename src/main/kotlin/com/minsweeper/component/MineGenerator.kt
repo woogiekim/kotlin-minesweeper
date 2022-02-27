@@ -4,7 +4,7 @@ import com.minsweeper.block.Blocks
 import com.minsweeper.block.Coordinate
 
 interface MineGenerator {
-    fun generate(blocks: Blocks, count: Int = (blocks.totalCount() / 3)): Blocks
+    fun generate(blocks: Blocks, count: Int = (blocks.getTotalCount() / 3)): Blocks
 }
 
 class DefaultMineGenerator : MineGenerator {

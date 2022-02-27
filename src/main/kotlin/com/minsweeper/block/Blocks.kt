@@ -9,7 +9,7 @@ class Blocks private constructor(
 
     fun getOne(coordinate: Coordinate): Block = with(coordinate) { blocks[x][y] }
 
-    fun totalCount(): Int = coordinate.x * coordinate.y
+    fun getTotalCount(): Int = coordinate.x * coordinate.y
 
     fun mine(coordinate: Coordinate) {
         coordinate.apply {
@@ -17,6 +17,11 @@ class Blocks private constructor(
 
             blocks[x][y] = MineBlock(this)
         }
+    }
+
+    fun shuffle() {
+        this.blocks.forEach { it.shuffle() }
+        this.blocks.shuffle()
     }
 
     fun toList(): MutableList<MutableList<Block>> = blocks

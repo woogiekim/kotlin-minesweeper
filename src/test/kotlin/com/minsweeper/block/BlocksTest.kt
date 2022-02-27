@@ -61,4 +61,21 @@ class BlocksTest {
 
         assertThatIllegalStateException().isThrownBy { blocks.mine(Coordinate(0 to 0)) }
     }
+
+    @Test
+    fun `블록을 랜덤하게 섞을 수 있다`() {
+        val blocks = blocks(Coordinate(100 to 100))
+
+        val coordinates = listOf(
+            Coordinate(0 to 0), Coordinate(0 to 1), Coordinate(0 to 2), Coordinate(0 to 3), Coordinate(0 to 4),
+            Coordinate(0 to 5), Coordinate(0 to 6), Coordinate(0 to 7), Coordinate(0 to 8), Coordinate(0 to 9)
+        )
+
+        coordinates.forEach { blocks.mine(it) }
+        assertThat(blocks.toList()[0].slice(IntRange(0, 9)).map { it is MineBlock }).containsOnly(true)
+
+        blocks.shuffle()
+
+        assertThat(blocks.toList()[0].slice(IntRange(0, 9)).map { it is MineBlock }).containsAnyOf(false)
+    }
 }
