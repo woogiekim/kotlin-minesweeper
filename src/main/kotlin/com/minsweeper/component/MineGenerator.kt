@@ -4,7 +4,7 @@ import com.minsweeper.block.Blocks
 import com.minsweeper.block.Coordinate
 
 interface MineGenerator {
-    fun generate(blocks: Blocks, count: Int = (blocks.coordinate.y / 3)): Blocks
+    fun generate(blocks: Blocks, count: Int = (blocks.totalCount() / 3)): Blocks
 }
 
 class DefaultMineGenerator : MineGenerator {
@@ -12,11 +12,11 @@ class DefaultMineGenerator : MineGenerator {
         return blocks.apply {
             var mineCount = count
 
-            while (mineCount > 0) {
-                (0 until coordinate.x).forEach { x ->
-                    (0 until coordinate.y).forEach { y ->
-                        mine(Coordinate(x to y)).also { mineCount-- }
-                    }
+            loop@ for (x in 0 until coordinate.x) {
+                for (y in 0 until coordinate.y) {
+                    mine(Coordinate(x to y)).also { mineCount-- }
+
+                    if (mineCount <= 0) break@loop
                 }
             }
         }
