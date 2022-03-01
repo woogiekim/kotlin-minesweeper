@@ -1,16 +1,16 @@
 package com.minsweeper.block
 
 data class Coordinate(
-    val x: Int = 0,
-    val y: Int = 0
+    val pair: Pair<Int, Int> = 0 to 0
 ) {
-    constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
+    val x: Int = pair.first
+    val y: Int = pair.second
 
     fun getAround(maximum: Coordinate): List<Coordinate> {
         return listOf(
-            Coordinate((x - 1), (y - 1)), Coordinate((x - 1), (y)), Coordinate((x - 1), (y + 1)),
-            Coordinate(x, (y - 1)), Coordinate(x, (y + 1)),
-            Coordinate((x + 1), (y - 1)), Coordinate((x + 1), (y)), Coordinate((x + 1), (y + 1)),
+            Coordinate((x - 1) to (y - 1)), Coordinate((x - 1) to (y)), Coordinate((x - 1) to (y + 1)),
+            Coordinate(x to (y - 1)), Coordinate(x to (y + 1)),
+            Coordinate((x + 1) to (y - 1)), Coordinate((x + 1) to (y)), Coordinate((x + 1) to (y + 1)),
         ).filter { it.canUse(maximum) }
     }
 
@@ -23,6 +23,6 @@ data class Coordinate(
     }
 
     companion object {
-        val DEFAULT = Coordinate(3, 3)
+        val DEFAULT = Coordinate(3 to 3)
     }
 }
