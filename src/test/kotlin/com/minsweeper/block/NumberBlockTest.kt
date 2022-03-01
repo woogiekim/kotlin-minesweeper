@@ -47,4 +47,25 @@ class NumberBlockTest {
 
         assertThatIllegalArgumentException().isThrownBy { numberBlock(9) }
     }
+
+    @Test
+    fun `숫자블록은 플러스될 수 있다`() {
+        val numberBlock = numberBlock()
+
+        assertThat(numberBlock.number).isEqualTo(1)
+
+        val addedNumberBlock = numberBlock.plus()
+
+        assertThat(addedNumberBlock.number).isEqualTo(2)
+    }
+
+    @Test
+    fun `숫자블록은 최대 8까지 플러스될 수 있다`() {
+        val numberBlock = numberBlock(7)
+
+        val addedNumberBlock = numberBlock.plus()
+
+        assertThat(addedNumberBlock.number).isEqualTo(8)
+        assertThatIllegalArgumentException().isThrownBy { addedNumberBlock.plus() }
+    }
 }
