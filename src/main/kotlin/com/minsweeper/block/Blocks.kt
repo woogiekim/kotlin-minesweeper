@@ -19,12 +19,26 @@ class Blocks private constructor(
         }
     }
 
+    fun revisionNumber(coordinate: Coordinate) {
+        coordinate.apply {
+            val target = blocks[x][y]
+
+            if (target is MineBlock) return
+
+            blocks[x][y] = if (target is NumberBlock) {
+                target.plus()
+            } else NumberBlock(1, this)
+        }
+    }
+
     fun shuffle() {
         this.blocks.forEach { it.shuffle() }
         this.blocks.shuffle()
     }
 
     fun toList(): MutableList<MutableList<Block>> = blocks
+
+    fun toMines(): List<MineBlock> = blocks.flatMap { it.filterIsInstance<MineBlock>() }
 
     companion object {
         fun create(coordinate: Coordinate, blockGenerator: BlockGenerator): Blocks {
