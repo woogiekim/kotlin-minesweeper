@@ -16,7 +16,7 @@ class DefaultBlockGenerator : BlockGenerator {
 
         repeat(coordinate.x) { x ->
             blocks.add(IntStream.range(0, coordinate.y)
-                .mapToObj { y -> BlankBlock(Coordinate(x, y)) }
+                .mapToObj { y -> BlankBlock(Coordinate(x to y)) }
                 .collect(Collectors.toList()))
         }
 

@@ -14,7 +14,7 @@ class NumberBlockTest {
         val number = numberBlock(3, coordinate)
 
         assertThat(number.display()).isEqualTo("◻️")
-        assertThat(number.coordinate).isEqualTo(Coordinate(2, 1))
+        assertThat(number.coordinate).isEqualTo(Coordinate(2 to 1))
         assertThat(number.status).isEqualTo(CLOSE)
     }
 

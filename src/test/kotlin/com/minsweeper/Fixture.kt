@@ -7,16 +7,16 @@ import com.minsweeper.component.BlockGenerator
 import com.minsweeper.component.DefaultBlockGenerator
 
 fun blankBlock(
-    coordinate: Coordinate = Coordinate(0, 0)
+    coordinate: Coordinate = Coordinate(0 to 0)
 ): BlankBlock = BlankBlock(coordinate)
 
 fun numberBlock(
     number: Int = 1,
-    coordinate: Coordinate = Coordinate(0, 1)
+    coordinate: Coordinate = Coordinate(0 to 1)
 ): NumberBlock = NumberBlock(number, coordinate)
 
 fun mineBlock(
-    coordinate: Coordinate = Coordinate(0, 2)
+    coordinate: Coordinate = Coordinate(0 to 2)
 ): MineBlock = MineBlock(coordinate)
 
 fun blocks(
