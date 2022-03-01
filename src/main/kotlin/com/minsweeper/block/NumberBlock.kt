@@ -9,6 +9,8 @@ class NumberBlock(
         require(number <= MAXIMUM) { "숫자는 $MAXIMUM 보다 작거나 같아야 함" }
     }
 
+    fun plus(): NumberBlock = NumberBlock(number + 1, coordinate)
+
     override fun open() {
         check(this.status != BlockStatus.OPEN) { "이미 오픈한 블록" }
 

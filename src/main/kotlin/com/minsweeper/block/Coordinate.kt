@@ -6,9 +6,20 @@ data class Coordinate(
 ) {
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
 
-    init {
-        require(x >= 0) { "x좌표 음수불가" }
-        require(y >= 0) { "y좌표 음수불가" }
+    fun getAround(maximum: Coordinate): List<Coordinate> {
+        return listOf(
+            Coordinate((x - 1), (y - 1)), Coordinate((x - 1), (y)), Coordinate((x - 1), (y + 1)),
+            Coordinate(x, (y - 1)), Coordinate(x, (y + 1)),
+            Coordinate((x + 1), (y - 1)), Coordinate((x + 1), (y)), Coordinate((x + 1), (y + 1)),
+        ).filter { it.canUse(maximum) }
+    }
+
+    private fun canUse(maximum: Coordinate): Boolean {
+        return isIn(maximum.x) { it.x } && isIn(maximum.y) { it.y }
+    }
+
+    private fun isIn(maximum: Int, function: Function1<Coordinate, Int>): Boolean {
+        return function.invoke(this) in 0 until maximum
     }
 
     companion object {
