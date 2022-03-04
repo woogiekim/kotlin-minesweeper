@@ -13,6 +13,14 @@ class Board(
 
     fun layMine(coordinate: Coordinate) = blocks.mine(coordinate)
 
+    fun display(): String {
+        return this.blocks.display()
+    }
+
+    fun isClear(): Boolean {
+        return true
+    }
+
     companion object {
         fun create(blocks: Blocks): Board = Board(blocks)
     }

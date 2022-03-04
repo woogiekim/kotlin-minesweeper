@@ -36,6 +36,12 @@ class Blocks private constructor(
         this.blocks.shuffle()
     }
 
+    fun display(): String {
+        return this.blocks.joinToString(System.lineSeparator()) {
+            it.joinToString(" ") { block -> block.display() }
+        }
+    }
+
     fun toList(): MutableList<MutableList<Block>> = blocks
 
     fun toMines(): List<MineBlock> = blocks.flatMap { it.filterIsInstance<MineBlock>() }
