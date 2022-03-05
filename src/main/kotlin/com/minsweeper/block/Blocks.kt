@@ -34,11 +34,32 @@ class Blocks private constructor(
     fun shuffle() {
         this.blocks.forEach { it.shuffle() }
         this.blocks.shuffle()
+
+        this.blocks.forEachIndexed { x, it ->
+            it.forEachIndexed { y, block ->
+                val simpleBlock = block as SimpleBlock
+
+                simpleBlock.coordinate = Coordinate(x to y)
+            }
+        }
+    }
+
+    fun allCleared(): Boolean {
+        return this.blocks.all { it.filterNot { block -> block is MineBlock }.all { block -> block.opened() } }
     }
 
     fun display(): String {
         return this.blocks.joinToString(System.lineSeparator()) {
-            it.joinToString(" ") { block -> block.display() }
+            it.joinToString("\t") { block -> block.display() }
+        }
+    }
+
+    fun displayForOpen(): String {
+        return this.blocks.joinToString(System.lineSeparator()) {
+            it.joinToString("\t") { block ->
+                block.forceOpen()
+                block.display()
+            }
         }
     }
 

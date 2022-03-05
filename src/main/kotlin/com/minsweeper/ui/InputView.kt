@@ -27,7 +27,7 @@ object InputView {
     fun readAfterClear(): GameStatus {
         OutputView.printAfterClear()
 
-        return GameStatus.clearOf(readLine()?.toInt()!!)
+        return GameStatus.afterClear(readLine()?.toInt()!!)
     }
 
     private fun readCoordinate(): Coordinate {

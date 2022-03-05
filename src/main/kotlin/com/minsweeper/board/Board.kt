@@ -17,8 +17,12 @@ class Board(
         return this.blocks.display()
     }
 
-    fun isClear(): Boolean {
-        return true
+    fun displayForOpen(): String {
+        return this.blocks.displayForOpen()
+    }
+
+    fun clear(): Boolean {
+        return this.blocks.allCleared()
     }
 
     companion object {
