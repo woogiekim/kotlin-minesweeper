@@ -7,36 +7,44 @@ interface Block {
     fun close()
     fun flag()
     fun skip()
+    fun forceOpen()
+    fun opened(): Boolean
     fun display(): String
 }
 
 abstract class SimpleBlock(
-    coordinate: Coordinate,
+    var coordinate: Coordinate,
     private val display: String,
     var status: BlockStatus = CLOSE
 ) : Block {
     override fun open() {
-        check(this.status != OPEN) { "이미 오픈한 블록" }
-
-        this.status = OPEN
+        changeStatus(OPEN)
     }
 
     override fun close() {
-        check(this.status != CLOSE) { "이미 닫은 블록" }
-
-        this.status = CLOSE
+        changeStatus(CLOSE)
     }
 
     override fun flag() {
-        check(this.status != FLAG) { "이미 플래그한 블록" }
-
-        this.status = FLAG
+        changeStatus(FLAG)
     }
 
     override fun skip() {
-        check(this.status != QUESTION_MARK) { "이미 ? 한 블록" }
+        changeStatus(QUESTION_MARK)
+    }
 
-        this.status = QUESTION_MARK
+    final override fun forceOpen() {
+        changeStatus(OPEN)
+    }
+
+    private fun changeStatus(status: BlockStatus) {
+        check(this.status != status) { "이미 $status 한 블록" }
+
+        this.status = status
+    }
+
+    override fun opened(): Boolean {
+        return this.status == OPEN
     }
 
     override fun display(): String {

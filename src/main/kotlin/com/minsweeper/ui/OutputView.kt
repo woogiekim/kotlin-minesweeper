@@ -9,8 +9,12 @@ object OutputView {
         println("지뢰찾기 보드의 형태를 입력해주세요. 예) 3,3")
     }
 
-    fun printBoard(board: Board) {
+    fun printBoardDisplay(board: Board) {
         println(board.display())
+    }
+
+    fun printGameEndDisplay(board: Board) {
+        println(board.displayForOpen())
     }
 
     fun printChooseCoordinate() {

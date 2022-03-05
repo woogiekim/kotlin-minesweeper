@@ -1,15 +1,18 @@
 package com.minsweeper.game
 
 import com.minsweeper.block.Blocks
+import com.minsweeper.block.Coordinate
 import com.minsweeper.board.Board
 import com.minsweeper.component.BlockGenerator
 import com.minsweeper.component.MineGenerator
+import com.minsweeper.component.NumberAllocator
 import com.minsweeper.ui.InputView
 import com.minsweeper.ui.OutputView
 
 class GameManager(
     private val blockGenerator: BlockGenerator,
-    private val mineGenerator: MineGenerator
+    private val mineGenerator: MineGenerator,
+    private val numberAllocator: NumberAllocator
 ) : Runnable {
     init {
         GameContext.start()
@@ -24,23 +27,34 @@ class GameManager(
     }
 
     private fun startGame() {
-        startGame@ do {
-            val board = makeBoard()
+        do {
+            var board: Board? = null
+            try {
+                board = makeBoard()
 
-            sweepMine(board)
+                sweepMine(board)
+            } catch (e: Exception) {
+                OutputView.printGameEndDisplay(board!!)
+            }
         } while (GameContext.canStart())
     }
 
     private fun makeBoard(): Board {
         val coordinate = InputView.readBoardCoordinate()
-        val blocks = Blocks.create(coordinate, blockGenerator)
+        val blocks = initBlocks(coordinate)
+        val board = Board(blocks)
 
-        val board = Board(mineGenerator.generate(blocks))
-
-        OutputView.printBoard(board)
+        OutputView.printBoardDisplay(board)
         OutputView.printNewLine()
 
         return board
+    }
+
+    private fun initBlocks(coordinate: Coordinate): Blocks {
+        val blocks = Blocks.create(coordinate, blockGenerator)
+        val minedBlocks = mineGenerator.generate(blocks).apply { shuffle() }
+
+        return numberAllocator.allocate(minedBlocks)
     }
 
     private fun sweepMine(board: Board) {
@@ -55,20 +69,22 @@ class GameManager(
 
                 command.action(block)
 
-                OutputView.printBoard(board)
+                OutputView.printBoardDisplay(board)
                 OutputView.printNewLine()
 
                 clearAndThen(board)
             } catch (e: RuntimeException) {
                 println(e.message)
             }
-        } while (!GameContext.isEnd())
+        } while (!GameContext.clear())
     }
 
     private fun clearAndThen(board: Board) {
-        if (!board.isClear()) {
+        if (!board.clear()) {
             return
         }
+
+        GameContext.end()
 
         when (InputView.readAfterClear()) {
             GameStatus.RESTART -> GameContext.restart()
