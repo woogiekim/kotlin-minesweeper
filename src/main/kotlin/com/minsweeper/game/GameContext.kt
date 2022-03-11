@@ -14,6 +14,10 @@ object GameContext {
         changeStatus(RESTART)
     }
 
+    fun clear() {
+        changeStatus(CLEAR)
+    }
+
     fun end() {
         changeStatus(END)
     }
@@ -24,5 +28,5 @@ object GameContext {
 
     fun canStart(): Boolean = this.status in EnumSet.of(START, RESTART)
 
-    fun clear(): Boolean = this.status in EnumSet.of(END, RESTART)
+    fun isClear(): Boolean = this.status == CLEAR
 }

@@ -10,5 +10,5 @@ fun main() {
     val mineGenerator = DefaultMineGenerator()
     val numberAllocator = DefaultNumberAllocator()
 
-    GameManager(blockGenerator, mineGenerator, numberAllocator).run()
+    GameManager(blockGenerator, mineGenerator, numberAllocator).start()
 }

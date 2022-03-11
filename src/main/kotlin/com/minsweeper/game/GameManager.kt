@@ -6,6 +6,7 @@ import com.minsweeper.board.Board
 import com.minsweeper.component.BlockGenerator
 import com.minsweeper.component.MineGenerator
 import com.minsweeper.component.NumberAllocator
+import com.minsweeper.exception.MineSweeperException
 import com.minsweeper.ui.InputView
 import com.minsweeper.ui.OutputView
 
@@ -13,30 +14,27 @@ class GameManager(
     private val blockGenerator: BlockGenerator,
     private val mineGenerator: MineGenerator,
     private val numberAllocator: NumberAllocator
-) : Runnable {
+) {
     init {
         GameContext.start()
     }
 
-    override fun run() {
-        try {
-            startGame()
-        } catch (e: Exception) {
-            println("게임 오류로 종료. 오류: ${e.message}")
-        }
+    fun start() {
+        do {
+            init()
+        } while (GameContext.canStart())
     }
 
-    private fun startGame() {
-        do {
-            var board: Board? = null
-            try {
-                board = makeBoard()
+    private fun init() {
+        var board: Board? = null
 
-                sweepMine(board)
-            } catch (e: Exception) {
-                OutputView.printGameEndDisplay(board!!)
-            }
-        } while (GameContext.canStart())
+        try {
+            board = makeBoard()
+
+            sweepMine(board)
+        } catch (e: MineSweeperException) {
+            OutputView.printGameEndDisplay(board!!)
+        }
     }
 
     private fun makeBoard(): Board {
@@ -72,20 +70,18 @@ class GameManager(
                 OutputView.printBoardDisplay(board)
                 OutputView.printNewLine()
 
-                clearAndThen(board)
+                if (board.clear()) GameContext.clear()
+            } catch (e: MineSweeperException) {
+                throw e
             } catch (e: RuntimeException) {
                 println(e.message)
             }
-        } while (!GameContext.clear())
+        } while (!GameContext.isClear())
+
+        clearAndThen()
     }
 
-    private fun clearAndThen(board: Board) {
-        if (!board.clear()) {
-            return
-        }
-
-        GameContext.end()
-
+    private fun clearAndThen() {
         when (InputView.readAfterClear()) {
             GameStatus.RESTART -> GameContext.restart()
             GameStatus.END -> GameContext.end()
