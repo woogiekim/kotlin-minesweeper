@@ -32,8 +32,13 @@ class GameManager(
             board = makeBoard()
 
             sweepMine(board)
+
         } catch (e: MineSweeperException) {
-            OutputView.printGameEndDisplay(board!!)
+            OutputView.printErrorMessage(e)
+            OutputView.printBoardDisplay(board)
+        } catch (e: RuntimeException) {
+            OutputView.printErrorMessage(e)
+            OutputView.printGameEndDisplay(board)
         }
     }
 
@@ -72,9 +77,9 @@ class GameManager(
 
                 if (board.clear()) GameContext.clear()
             } catch (e: MineSweeperException) {
-                throw e
+                OutputView.printErrorMessage(e)
             } catch (e: RuntimeException) {
-                println(e.message)
+                throw e
             }
         } while (!GameContext.isClear())
 

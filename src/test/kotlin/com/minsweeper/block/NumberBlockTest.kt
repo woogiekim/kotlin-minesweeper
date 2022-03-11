@@ -27,7 +27,7 @@ class NumberBlockTest {
         number.open()
 
         assertThat(number.status).isEqualTo(OPEN)
-        assertThat(number.display()).isEqualTo("3")
+        assertThat(number.display().trim()).isEqualTo("3")
     }
 
     @Test

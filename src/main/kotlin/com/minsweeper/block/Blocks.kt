@@ -1,6 +1,8 @@
 package com.minsweeper.block
 
 import com.minsweeper.component.BlockGenerator
+import com.minsweeper.exception.MineSweeperException.ErrorCode.COORDINATE_MUST_GREATER_THAN_ZERO
+import com.minsweeper.exception.validate
 
 class Blocks private constructor(
     private var blocks: MutableList<MutableList<Block>>
@@ -69,6 +71,8 @@ class Blocks private constructor(
 
     companion object {
         fun create(coordinate: Coordinate, blockGenerator: BlockGenerator): Blocks {
+            validate(coordinate.x > 0 && coordinate.y > 0) { COORDINATE_MUST_GREATER_THAN_ZERO }
+
             return Blocks(blockGenerator.generate(coordinate)).apply { this.coordinate = coordinate }
         }
     }
