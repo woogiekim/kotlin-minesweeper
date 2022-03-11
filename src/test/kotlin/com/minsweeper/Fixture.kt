@@ -5,6 +5,14 @@ import com.minsweeper.block.Coordinate.Companion.DEFAULT
 import com.minsweeper.board.Board
 import com.minsweeper.component.BlockGenerator
 import com.minsweeper.component.DefaultBlockGenerator
+import com.minsweeper.exception.MineSweeperException
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+
+fun assertThatMineSweeperException(errorCode: MineSweeperException.ErrorCode, block: () -> Any) {
+    assertThatExceptionOfType(MineSweeperException::class.java).isThrownBy { block() }
+        .extracting("errorCode")
+        .isEqualTo(errorCode)
+}
 
 fun blankBlock(
     coordinate: Coordinate = Coordinate(0 to 0)
