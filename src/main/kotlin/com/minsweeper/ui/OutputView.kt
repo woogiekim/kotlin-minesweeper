@@ -1,7 +1,6 @@
 package com.minsweeper.ui
 
 import com.minsweeper.board.Board
-import com.minsweeper.exception.MineSweeperException
 import com.minsweeper.game.Command
 import com.minsweeper.game.GameStatus
 

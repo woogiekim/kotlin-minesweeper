@@ -27,6 +27,6 @@ class BlankBlockTest {
         blank.open()
 
         assertThat(blank.status).isEqualTo(OPEN)
-        assertThat(blank.display()).isEqualTo("⬛️")
+        assertThat(blank.display()).isEqualTo(" ")
     }
 }

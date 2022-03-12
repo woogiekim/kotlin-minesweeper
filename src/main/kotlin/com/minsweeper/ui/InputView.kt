@@ -1,6 +1,8 @@
 package com.minsweeper.ui
 
 import com.minsweeper.block.Coordinate
+import com.minsweeper.exception.MineSweeperException.ErrorCode.REQUIRE_COORDINATE
+import com.minsweeper.exception.validate
 import com.minsweeper.game.Command
 import com.minsweeper.game.GameStatus
 
@@ -31,8 +33,10 @@ object InputView {
     }
 
     private fun readCoordinate(): Coordinate {
-        val readLine = readLine()?.split(",", limit = 2)?.map { it.toInt() }
+        val readLine = readLine()?.split(",")?.map { it.toInt() }
 
-        return readLine?.let { Coordinate(readLine[0] to readLine[1]) } ?: Coordinate()
+        validate(readLine != null && readLine.size == 2) { REQUIRE_COORDINATE }
+
+        return Coordinate(readLine[0] to readLine[1])
     }
 }
