@@ -32,7 +32,6 @@ class GameManager(
             board = makeBoard()
 
             sweepMine(board)
-
         } catch (e: MineSweeperException) {
             OutputView.printErrorMessage(e)
             OutputView.printBoardDisplay(board)
@@ -55,7 +54,7 @@ class GameManager(
 
     private fun initBlocks(coordinate: Coordinate): Blocks {
         val blocks = Blocks.create(coordinate, blockGenerator)
-        val minedBlocks = mineGenerator.generate(blocks).apply { shuffle() }
+        val minedBlocks = mineGenerator.generate(blocks)
 
         return numberAllocator.allocate(minedBlocks)
     }

@@ -1,6 +1,8 @@
 package com.minsweeper.block
 
 import com.minsweeper.block.BlockStatus.*
+import com.minsweeper.exception.MineSweeperException
+import com.minsweeper.exception.validate
 
 interface Block {
     fun open()
@@ -38,8 +40,6 @@ abstract class SimpleBlock(
     }
 
     private fun changeStatus(status: BlockStatus) {
-        check(this.status != status) { "이미 $status 한 블록" }
-
         this.status = status
     }
 

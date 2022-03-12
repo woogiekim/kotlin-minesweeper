@@ -1,7 +1,8 @@
 package com.minsweeper.block
 
 import com.minsweeper.component.BlockGenerator
-import com.minsweeper.exception.MineSweeperException.ErrorCode.COORDINATE_MUST_GREATER_THAN_ZERO
+import com.minsweeper.exception.MineSweeperException.ErrorCode.NOT_GREATER_THAN_ZERO_COORDINATE
+import com.minsweeper.exception.MineSweeperException.ErrorCode.OUT_OF_COORDINATE
 import com.minsweeper.exception.validate
 
 class Blocks private constructor(
@@ -9,7 +10,11 @@ class Blocks private constructor(
 ) {
     lateinit var coordinate: Coordinate
 
-    fun getOne(coordinate: Coordinate): Block = with(coordinate) { blocks[x][y] }
+    fun getOne(coordinate: Coordinate): Block {
+        validate(coordinate.x <= this.coordinate.x && coordinate.y <= this.coordinate.y) { OUT_OF_COORDINATE }
+
+        return with(coordinate) { blocks[x][y] }
+    }
 
     fun getTotalCount(): Int = coordinate.x * coordinate.y
 
@@ -30,19 +35,6 @@ class Blocks private constructor(
             blocks[x][y] = if (target is NumberBlock) {
                 target.plus()
             } else NumberBlock(1, this)
-        }
-    }
-
-    fun shuffle() {
-        this.blocks.forEach { it.shuffle() }
-        this.blocks.shuffle()
-
-        this.blocks.forEachIndexed { x, it ->
-            it.forEachIndexed { y, block ->
-                val simpleBlock = block as SimpleBlock
-
-                simpleBlock.coordinate = Coordinate(x to y)
-            }
         }
     }
 
@@ -71,7 +63,7 @@ class Blocks private constructor(
 
     companion object {
         fun create(coordinate: Coordinate, blockGenerator: BlockGenerator): Blocks {
-            validate(coordinate.x > 0 && coordinate.y > 0) { COORDINATE_MUST_GREATER_THAN_ZERO }
+            validate(coordinate.x > 0 && coordinate.y > 0) { NOT_GREATER_THAN_ZERO_COORDINATE }
 
             return Blocks(blockGenerator.generate(coordinate)).apply { this.coordinate = coordinate }
         }
