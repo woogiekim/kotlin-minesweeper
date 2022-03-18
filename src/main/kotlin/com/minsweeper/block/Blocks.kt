@@ -39,6 +39,14 @@ class Blocks private constructor(
         }
     }
 
+    fun chord(coordinate: Coordinate) {
+        val block = getOne(coordinate)
+
+        if (block !is BlankBlock) return
+
+        block.chord(this)
+    }
+
     fun cleared(): Boolean {
         return this.blocks.all { it.filterNot { block -> block is MineBlock }.all { block -> block.opened() } }
     }

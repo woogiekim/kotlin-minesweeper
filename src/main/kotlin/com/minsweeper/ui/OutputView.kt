@@ -17,8 +17,12 @@ object OutputView {
         board?.let { println(it.forceDisplay()) }
     }
 
-    fun printChooseCoordinate() {
+    fun printBlockCoordinate() {
         println("좌표를 선택해주세요. 예) 1,1")
+    }
+
+    fun printMineCount() {
+        println("지뢰 개수를 입력해주세요.")
     }
 
     fun printCommand() {

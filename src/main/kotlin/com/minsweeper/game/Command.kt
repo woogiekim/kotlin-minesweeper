@@ -1,6 +1,8 @@
 package com.minsweeper.game
 
+import com.minsweeper.block.BlankBlock
 import com.minsweeper.block.Block
+import com.minsweeper.block.Blocks
 
 enum class Command {
     OPEN,
@@ -8,9 +10,15 @@ enum class Command {
     FLAG,
     QUESTION_MARK;
 
-    fun action(block: Block) {
+    fun action(block: Block, blocks: Blocks) {
         when (this) {
-            OPEN -> block.open()
+            OPEN -> {
+                if (block is BlankBlock) {
+                    block.chord(blocks)
+                } else {
+                    block.open()
+                }
+            }
             CLOSE -> block.close()
             FLAG -> block.flag()
             QUESTION_MARK -> block.skip()

@@ -2,6 +2,7 @@ package com.minsweeper.block
 
 import com.minsweeper.blocks
 import com.minsweeper.component.BlockGenerator
+import com.minsweeper.component.DefaultNumberAllocator
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalStateException
 import org.junit.jupiter.api.Test
@@ -60,5 +61,33 @@ class BlocksTest {
         assertThat(blocks.getOne(Coordinate(0 to 0))).isExactlyInstanceOf(MineBlock::class.java)
 
         assertThatIllegalStateException().isThrownBy { blocks.mine(Coordinate(0 to 0)) }
+    }
+
+    @Test
+    fun `chord 실행 성공`() {
+        val blocks = blocks(Coordinate(5 to 5))
+
+        blocks.mine(Coordinate(1 to 1))
+        blocks.mine(Coordinate(2 to 2))
+        blocks.mine(Coordinate(4 to 3))
+
+        val allocatedBlocks: Blocks = DefaultNumberAllocator().allocate(blocks)
+
+        allocatedBlocks.chord(Coordinate(0 to 3))
+
+        println(allocatedBlocks.display())
+
+        assertThat(allocatedBlocks.getOne(Coordinate(0 to 2)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(0 to 3)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(0 to 4)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(1 to 2)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(1 to 3)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(1 to 4)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(2 to 3)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(2 to 4)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(3 to 3)).opened()).isTrue
+        assertThat(allocatedBlocks.getOne(Coordinate(3 to 4)).opened()).isTrue
+
+        assertThat(blocks.toList().sumOf { it.count { block -> !block.opened() } }).isEqualTo(15)
     }
 }

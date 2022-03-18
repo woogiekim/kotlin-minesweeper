@@ -15,7 +15,7 @@ object InputView {
     }
 
     fun readBlockCoordinate(): Coordinate {
-        OutputView.printChooseCoordinate()
+        OutputView.printBlockCoordinate()
 
         return readCoordinate()
     }
@@ -38,5 +38,11 @@ object InputView {
         validate(readLine != null && readLine.size == 2) { REQUIRE_COORDINATE }
 
         return Coordinate(readLine[0] to readLine[1])
+    }
+
+    fun readMineCount(): Int {
+        OutputView.printMineCount()
+
+        return readLine()!!.toInt()
     }
 }

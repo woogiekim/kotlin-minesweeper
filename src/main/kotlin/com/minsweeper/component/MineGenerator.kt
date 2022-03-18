@@ -4,7 +4,6 @@ import com.minsweeper.block.Blocks
 import com.minsweeper.block.Coordinate
 import com.minsweeper.block.MineBlock
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 interface MineGenerator {
     fun generate(blocks: Blocks, count: Int = (blocks.totalCount / 3)): Blocks
