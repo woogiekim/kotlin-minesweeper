@@ -14,7 +14,7 @@ object OutputView {
     }
 
     fun printGameEndDisplay(board: Board?) {
-        board?.let { println(it.displayForOpen()) }
+        board?.let { println(it.forceDisplay()) }
     }
 
     fun printChooseCoordinate() {

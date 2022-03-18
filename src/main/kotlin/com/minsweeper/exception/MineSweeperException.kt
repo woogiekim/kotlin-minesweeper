@@ -7,7 +7,6 @@ class MineSweeperException(private val errorCode: ErrorCode) : RuntimeException(
     enum class ErrorCode(
         val message: String
     ) {
-        OPENED_MINE("지뢰를 밟음"),
         REQUIRE_COORDINATE("좌표는 필수임"),
         OUT_OF_COORDINATE("좌표 범위 벗어남"),
         NOT_GREATER_THAN_ZERO_COORDINATE("좌표는 0보다 커야 함")
