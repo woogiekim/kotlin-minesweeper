@@ -10,7 +10,7 @@ enum class BlockStatus(
 
     companion object {
         fun of(code: Int): BlockStatus {
-            return BlockStatus.values().first { it.code == code }
+            return values().first { it.code == code }
         }
     }
 }

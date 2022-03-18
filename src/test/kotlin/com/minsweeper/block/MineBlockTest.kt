@@ -1,11 +1,10 @@
 package com.minsweeper.block
 
-import com.minsweeper.assertThatMineSweeperException
 import com.minsweeper.block.BlockStatus.CLOSE
 import com.minsweeper.block.BlockStatus.OPEN
-import com.minsweeper.exception.MineSweeperException.ErrorCode.OPENED_MINE
 import com.minsweeper.mineBlock
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatIllegalStateException
 import org.junit.jupiter.api.Test
 
 class MineBlockTest {
@@ -26,6 +25,6 @@ class MineBlockTest {
 
         assertThat(mine.status).isNotEqualTo(OPEN)
 
-        assertThatMineSweeperException(OPENED_MINE) { mine.open() }
+        assertThatIllegalStateException().isThrownBy { mine.open() }
     }
 }

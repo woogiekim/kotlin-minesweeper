@@ -1,8 +1,6 @@
 package com.minsweeper.block
 
 import com.minsweeper.block.BlockStatus.*
-import com.minsweeper.exception.MineSweeperException
-import com.minsweeper.exception.validate
 
 interface Block {
     fun open()

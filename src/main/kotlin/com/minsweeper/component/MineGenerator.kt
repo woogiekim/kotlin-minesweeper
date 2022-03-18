@@ -7,7 +7,7 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 interface MineGenerator {
-    fun generate(blocks: Blocks, count: Int = (blocks.getTotalCount() / 3)): Blocks
+    fun generate(blocks: Blocks, count: Int = (blocks.totalCount / 3)): Blocks
 }
 
 class DefaultMineGenerator : MineGenerator {

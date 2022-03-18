@@ -10,35 +10,36 @@ class Blocks private constructor(
 ) {
     lateinit var coordinate: Coordinate
 
+    val totalCount: Int
+        get() = coordinate.x * coordinate.y
+
     fun getOne(coordinate: Coordinate): Block {
         validate(coordinate.x <= this.coordinate.x && coordinate.y <= this.coordinate.y) { OUT_OF_COORDINATE }
 
         return with(coordinate) { blocks[x][y] }
     }
 
-    fun getTotalCount(): Int = coordinate.x * coordinate.y
-
     fun mine(coordinate: Coordinate) {
-        coordinate.apply {
-            check(blocks[x][y] !is MineBlock) { "지뢰를 중복 설치할 수 없음" }
+        coordinate.let {
+            check(blocks[it.x][it.y] !is MineBlock) { "지뢰를 중복 설치할 수 없음" }
 
-            blocks[x][y] = MineBlock(this)
+            blocks[it.x][it.y] = MineBlock(it)
         }
     }
 
     fun revisionNumber(coordinate: Coordinate) {
-        coordinate.apply {
-            val target = blocks[x][y]
+        coordinate.let {
+            val target = blocks[it.x][it.y]
 
             if (target is MineBlock) return
 
-            blocks[x][y] = if (target is NumberBlock) {
+            blocks[it.x][it.y] = if (target is NumberBlock) {
                 target.plus()
-            } else NumberBlock(1, this)
+            } else NumberBlock(1, it)
         }
     }
 
-    fun allCleared(): Boolean {
+    fun cleared(): Boolean {
         return this.blocks.all { it.filterNot { block -> block is MineBlock }.all { block -> block.opened() } }
     }
 
@@ -48,7 +49,7 @@ class Blocks private constructor(
         }
     }
 
-    fun displayForOpen(): String {
+    fun forceDisplay(): String {
         return this.blocks.joinToString(System.lineSeparator()) {
             it.joinToString("\t") { block ->
                 block.forceOpen()
@@ -57,7 +58,7 @@ class Blocks private constructor(
         }
     }
 
-    fun toList(): MutableList<MutableList<Block>> = blocks
+    fun toList(): List<List<Block>> = blocks
 
     fun toMines(): List<MineBlock> = blocks.flatMap { it.filterIsInstance<MineBlock>() }
 
