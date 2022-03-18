@@ -43,7 +43,8 @@ class GameManager(
 
     private fun makeBoard(): Board {
         val coordinate = InputView.readBoardCoordinate()
-        val blocks = initBlocks(coordinate)
+        val mineCount = InputView.readMineCount()
+        val blocks = initBlocks(coordinate, mineCount)
         val board = Board(blocks)
 
         OutputView.printBoardDisplay(board)
@@ -52,9 +53,9 @@ class GameManager(
         return board
     }
 
-    private fun initBlocks(coordinate: Coordinate): Blocks {
+    private fun initBlocks(coordinate: Coordinate, mineCount: Int): Blocks {
         val blocks = Blocks.create(coordinate, blockGenerator)
-        val minedBlocks = mineGenerator.generate(blocks)
+        val minedBlocks = mineGenerator.generate(blocks, mineCount)
 
         return numberAllocator.allocate(minedBlocks)
     }
@@ -69,7 +70,7 @@ class GameManager(
                 val command = InputView.readChooseCommand()
                 OutputView.printNewLine()
 
-                command.action(block)
+                command.action(block, board.blocks)
 
                 OutputView.printBoardDisplay(board)
                 OutputView.printNewLine()

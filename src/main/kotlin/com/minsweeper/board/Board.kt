@@ -4,7 +4,7 @@ import com.minsweeper.block.Blocks
 import com.minsweeper.block.Coordinate
 
 class Board(
-    private val blocks: Blocks
+    val blocks: Blocks
 ) {
 
     fun getBlock(coordinate: Coordinate) = blocks.getOne(coordinate)
