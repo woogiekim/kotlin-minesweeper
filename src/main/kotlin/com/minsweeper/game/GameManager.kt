@@ -83,11 +83,11 @@ class GameManager(
             }
         } while (!GameContext.isClear())
 
-        clearAndThen()
+        doClearAndThen(InputView.readAfterClear())
     }
 
-    private fun clearAndThen() {
-        when (InputView.readAfterClear()) {
+    private fun doClearAndThen(status: GameStatus) {
+        when (status) {
             GameStatus.RESTART -> GameContext.restart()
             GameStatus.END -> GameContext.end()
             else -> throw IllegalArgumentException("보기에 없는 명령")
